@@ -15,6 +15,7 @@ from eventlet import wsgi
 
 def hello_world(env, start_response):
     #print env
+    print 'gor request'
     if env['PATH_INFO'] != '/':
         start_response('404 Not Found', [('Content-Type', 'text/plain')])
         return ['Not Found\r\n']
