@@ -68,7 +68,7 @@ def get_music(title, artist):
     if id != "Song not found":
         headers = {"X-Auth": ":s:a:a:k7y0EHv6tkfDWsP0XhmasUdVvpk=::1413eca6ea7::7874555"}
         r = requests.get('http://kazan.zvq.me/api/data/track/url?body={"id":'+str(id)+',"type":"stream"}', headers=headers)
-        headers = {"Content-Type": "application/json", "X-Method": "call"}
+        #headers = {"Content-Type": "application/json", "X-Method": "call"}
         if (r.status_code == requests.codes.ok):
             url = json.loads(r.text)
             song_info = dumps({
@@ -77,7 +77,10 @@ def get_music(title, artist):
                                "url": url["url"]
             })
             return song_info
-    return None
+        else:
+            return None
+    else:
+        return None
     #print id
 
 get_music(title, artist)
