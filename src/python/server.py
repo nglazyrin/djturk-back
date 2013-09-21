@@ -21,8 +21,8 @@ def hello_world(env, start_response):
     if env['PATH_INFO'] != '/':
         start_response('404 Not Found', [('Content-Type', 'text/plain')])
         return ['Not Found\r\n']
-    q = env['QUERY_STRING']
-    if q:
+    if env.has_key('QUERY_STRING'):
+        q = env['QUERY_STRING']
         params = urlparse.parse_qs(q)
         try:
             artist = params['artist'][0]
@@ -52,5 +52,5 @@ def hello_world(env, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['djturk-backend\r\n']
     
-wsgi.server(eventlet.listen(('', int(os.environ['PORT']))), hello_world)
-#wsgi.server(eventlet.listen(('', 8080)), hello_world)
+#wsgi.server(eventlet.listen(('', int(os.environ['PORT']))), hello_world)
+wsgi.server(eventlet.listen(('', 8080)), hello_world)
