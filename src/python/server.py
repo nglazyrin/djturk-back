@@ -7,6 +7,7 @@ Created on Sat Sep 21 13:16:22 2013
 
 import mixcloud
 import json
+import sys
 import urlparse
 
 import eventlet
@@ -30,6 +31,7 @@ def hello_world(env, start_response):
             start_response('200 OK', [('Content-Type', 'application/json')])
             return [j]
         except:
+            print "Unexpected error:", sys.exc_info()[0]
             start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
             return [str(params)]
     else:
