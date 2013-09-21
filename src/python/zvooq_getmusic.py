@@ -3,6 +3,7 @@ from json import dumps
 from urllib2 import Request, urlopen
 import requests
 import json
+import sys
 
 values = dumps({
     "login": "veleslavia", 
@@ -65,10 +66,14 @@ def get_track_id(title, artist):
 def get_music(title, artist):
     id = get_track_id(title, artist)
     print id
+    sys.stdout.flush()
     if id != "Song not found":
         headers = {"X-Auth": ":s:a:a:k7y0EHv6tkfDWsP0XhmasUdVvpk=::1413eca6ea7::7874555"}
         r = requests.get('http://kazan.zvq.me/api/data/track/url?body={"id":'+str(id)+',"type":"stream"}', headers=headers)
         #headers = {"Content-Type": "application/json", "X-Method": "call"}
+        print r.status_code
+        print r.text
+        sys.stdout.flush()
         if (r.status_code == requests.codes.ok):
             url = json.loads(r.text)
             song_info = dumps({
