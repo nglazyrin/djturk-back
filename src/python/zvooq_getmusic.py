@@ -38,8 +38,8 @@ def get_track_id(title, artist):
     headers = {"Content-Type": "application/json", "X-Method": "call"}
     r = requests.post("http://kazan.zvq.me/auth/login", data=values, headers=headers)
     headers = {"Content-Type": "application/json"}
-
-    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+title+'"}', headers=headers)
+    
+    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+title.strip()+'"}', headers=headers)
 #    print r.url
 #    print r.text
     if (r.status_code == requests.codes.ok):
@@ -47,7 +47,7 @@ def get_track_id(title, artist):
     else:
         title_id = []
     
-    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+artist+'"}', headers=headers)
+    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+artist.strip()+'"}', headers=headers)
 #    print r.url
 #    print r.text
     if (r.status_code == requests.codes.ok):
@@ -77,13 +77,7 @@ def get_music(title, artist):
         })
         return song_info
     else:
-        headers = {"Content-Type": "application/json", "X-Method": "call"}
-        song_info = dumps({
-                           "author": "not found", 
-                           "composition": "not found",
-                           "url":"http://"
-        })
-        return song_info
+        return None
     #print id
 
-get_music(title, artist)
+#get_music(title, artist)
