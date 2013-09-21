@@ -6,6 +6,7 @@ Created on Sat Sep 21 13:16:22 2013
 """
 
 import mixcloud
+import zvooq_getmusic as zv
 import json
 import sys
 import urlparse
@@ -26,11 +27,16 @@ def hello_world(env, start_response):
         try:
             artist = params['artist'][0]
             track = params['track'][0]
+            isNext = params['next']
             print 'got request for ' + artist + ' - ' + track
             sys.stdout.flush()
-            m = mixcloud.MixCloud()
-            candidates = m.getCandidates(artist, track)
-            j = json.dumps(candidates)
+            
+            if (isNext):
+                zv.get_music(track, artist)
+            else:
+                m = mixcloud.MixCloud()
+                candidates = m.getCandidates(artist, track)
+                j = json.dumps(candidates)
             start_response('200 OK', [('Content-Type', 'application/json')])
             return [j]
         except:
