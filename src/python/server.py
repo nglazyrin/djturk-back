@@ -23,6 +23,7 @@ def hello_world(env, start_response):
         try:
             artist = params['artist'][0]
             track = params['track'][0]
+            print 'got request for ' + artist + ' - ' + track
             m = mixcloud.MixCloud()
             candidates = m.getCandidates(artist, track)
             j = json.dumps(candidates)
