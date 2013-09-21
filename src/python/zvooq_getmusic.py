@@ -69,15 +69,15 @@ def get_music(title, artist):
         headers = {"X-Auth": ":s:a:a:k7y0EHv6tkfDWsP0XhmasUdVvpk=::1413eca6ea7::7874555"}
         r = requests.get('http://kazan.zvq.me/api/data/track/url?body={"id":'+str(id)+',"type":"stream"}', headers=headers)
         headers = {"Content-Type": "application/json", "X-Method": "call"}
-        url = json.loads(r.text)
-        song_info = dumps({
-                           "author": artist, 
-                           "composition": title,
-                           "url": url["url"]
-        })
-        return song_info
-    else:
-        return None
+        if (r.status_code == requests.codes.ok):
+            url = json.loads(r.text)
+            song_info = dumps({
+                               "author": artist, 
+                               "composition": title,
+                               "url": url["url"]
+            })
+            return song_info
+    return None
     #print id
 
 #get_music(title, artist)

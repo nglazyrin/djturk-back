@@ -15,4 +15,3 @@ def toUtf8(text):
     
 def toName(artist, track):
     return artist + ' - ' + track
- 
