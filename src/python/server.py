@@ -30,7 +30,8 @@ def hello_world(env, start_response):
             isNext = params.has_key('next')
             print 'got request for ' + artist + ' - ' + track
             sys.stdout.flush()
-            
+
+            result = ""
             if (isNext):
                 m = mixcloud.MixCloud()
                 candidates = m.getCandidates(artist, track)
@@ -38,11 +39,12 @@ def hello_world(env, start_response):
                     [artist, track] = candidate.split('-')
                     j = zv.get_music(track, artist)
                     if (j):
+                        result = j
                         break;
             else:
-                j = zv.get_music(track, artist)
+                result = zv.get_music(track, artist)
             start_response('200 OK', [('Content-Type', 'application/json')])
-            return [j]
+            return [result]
         except:
             print "Unexpected error:", sys.exc_info()[0]
             sys.stdout.flush()
