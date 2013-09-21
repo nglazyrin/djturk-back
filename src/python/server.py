@@ -20,13 +20,16 @@ def hello_world(env, start_response):
     q = env['QUERY_STRING']
     if q:
         params = urlparse.parse_qs(q)
-        print params['q']
-        components = params['q'][0].split(' - ')
-        m = mixcloud.MixCloud()
-        candidates = m.getCandidates(components[0], components[1])
-        j = json.dumps(candidates)
-        start_response('200 OK', [('Content-Type', 'application/json')])
-        return [j]
+        try:
+            components = params['q'][0].split(' - ')
+            m = mixcloud.MixCloud()
+            candidates = m.getCandidates(components[0], components[1])
+            j = json.dumps(candidates)
+            start_response('200 OK', [('Content-Type', 'application/json')])
+            return [j]
+        except:
+            start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
+            return [str(params)]
     else:
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['djturk-backend\r\n']
