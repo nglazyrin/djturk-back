@@ -41,4 +41,4 @@ def hello_world(env, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['djturk-backend\r\n']
     
-wsgi.server(eventlet.listen(('', 80)), hello_world)
+wsgi.server(eventlet.listen(('', 8080)), hello_world)
