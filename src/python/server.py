@@ -25,6 +25,7 @@ def hello_world(env, start_response):
             artist = params['artist'][0]
             track = params['track'][0]
             print 'got request for ' + artist + ' - ' + track
+            sys.stdout.flush()
             m = mixcloud.MixCloud()
             candidates = m.getCandidates(artist, track)
             j = json.dumps(candidates)
@@ -32,6 +33,7 @@ def hello_world(env, start_response):
             return [j]
         except:
             print "Unexpected error:", sys.exc_info()[0]
+            sys.stdout.flush()
             start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
             return [str(params)]
     else:
