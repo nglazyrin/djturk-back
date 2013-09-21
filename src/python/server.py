@@ -9,6 +9,7 @@ import mixcloud
 import json
 import sys
 import urlparse
+import os
 
 import eventlet
 from eventlet import wsgi
@@ -41,4 +42,4 @@ def hello_world(env, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['djturk-backend\r\n']
     
-wsgi.server(eventlet.listen(('', 80)), hello_world)
+wsgi.server(eventlet.listen(('', os.environ['PORT'])), hello_world)
