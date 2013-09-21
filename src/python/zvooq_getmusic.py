@@ -77,13 +77,7 @@ def get_music(title, artist):
         })
         return song_info
     else:
-        headers = {"Content-Type": "application/json", "X-Method": "call"}
-        song_info = dumps({
-                           "author": "not found", 
-                           "composition": "not found",
-                           "url":"http://"
-        })
-        return song_info
+        return None
     #print id
 
 get_music(title, artist)

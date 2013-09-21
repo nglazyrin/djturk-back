@@ -27,16 +27,20 @@ def hello_world(env, start_response):
         try:
             artist = params['artist'][0]
             track = params['track'][0]
-            isNext = params['next']
+            isNext = params.has_key['next']
             print 'got request for ' + artist + ' - ' + track
             sys.stdout.flush()
             
             if (isNext):
-                zv.get_music(track, artist)
-            else:
                 m = mixcloud.MixCloud()
                 candidates = m.getCandidates(artist, track)
-                j = json.dumps(candidates)
+                for candidate in candidates:
+                    [artist, track] = candidate.split('-')
+                    j = zv.get_music(track, artist)
+                    if (j):
+                        break;
+            else:
+                j = zv.get_music(track, artist)
             start_response('200 OK', [('Content-Type', 'application/json')])
             return [j]
         except:

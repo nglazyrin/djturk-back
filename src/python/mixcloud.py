@@ -10,6 +10,7 @@ import json
 import string
 import sys
 import util as u
+import zvooq_getmusic as zv
 
 class MixCloud(object):
     
@@ -84,7 +85,8 @@ class MixCloud(object):
             total = total + 1
             if (total % 10 == 0):
                 print str(total) + ' playlists processed'
-        return tracks
+        return sorted(tracks, key=tracks.get, reverse=True)
+        #return tracks
 
     def getRank(self, counts):
         listenerCount = counts[0]
@@ -101,7 +103,12 @@ class MixCloud(object):
         artist = 'Lady Gaga'
         track = 'Bad Romance'
         tracks = self.getCandidates(artist, track)
-        print tracks
+        for candidate in tracks:
+            [artist, track] = candidate.split('-')
+            j = zv.get_music(track, artist)
+            if (j):
+                break;
+        print j
     
 def main(artist, track):
     m = MixCloud()
