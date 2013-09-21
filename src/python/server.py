@@ -27,7 +27,7 @@ def hello_world(env, start_response):
         try:
             artist = params['artist'][0]
             track = params['track'][0]
-            isNext = params.has_key['next']
+            isNext = params.has_key('next')
             print 'got request for ' + artist + ' - ' + track
             sys.stdout.flush()
             
@@ -53,3 +53,4 @@ def hello_world(env, start_response):
         return ['djturk-backend\r\n']
     
 wsgi.server(eventlet.listen(('', int(os.environ['PORT']))), hello_world)
+#wsgi.server(eventlet.listen(('', 8080)), hello_world)
