@@ -15,7 +15,7 @@ from eventlet import wsgi
 
 def hello_world(env, start_response):
     #print env
-    print 'gor request'
+    print 'got request'
     if env['PATH_INFO'] != '/':
         start_response('404 Not Found', [('Content-Type', 'text/plain')])
         return ['Not Found\r\n']
@@ -41,4 +41,4 @@ def hello_world(env, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['djturk-backend\r\n']
     
-wsgi.server(eventlet.listen(('', 8080)), hello_world)
+wsgi.server(eventlet.listen(('', 80)), hello_world)
