@@ -43,8 +43,14 @@ def hello_world(env, start_response):
                         break;
             else:
                 result = zv.get_music(track, artist)
-            start_response('200 OK', [('Content-Type', 'application/json')])
-            return [result]
+            if (result):
+                start_response('200 OK', [('Content-Type', 'application/json')])
+                return [result]
+            else:
+                print "Unable to get data from zvooq"
+                sys.stdout.flush()
+                start_response('501 Internal Server Error: unable to get data from zvooq', [('Content-Type', 'text/plain')])
+                return [str(params)]
         except:
             print "Unexpected error:", sys.exc_info()[0]
             sys.stdout.flush()
