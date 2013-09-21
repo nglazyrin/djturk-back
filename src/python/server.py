@@ -21,9 +21,10 @@ def hello_world(env, start_response):
     if q:
         params = urlparse.parse_qs(q)
         try:
-            components = params['q'][0].split(' - ')
+            artist = params['artist'][0]
+            track = params['track'][0]
             m = mixcloud.MixCloud()
-            candidates = m.getCandidates(components[0], components[1])
+            candidates = m.getCandidates(artist, track)
             j = json.dumps(candidates)
             start_response('200 OK', [('Content-Type', 'application/json')])
             return [j]
