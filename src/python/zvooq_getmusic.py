@@ -5,8 +5,8 @@ import requests
 import json
 
 values = dumps({
-    "login": "veleslavia", 
-    "password": "gkfdcr"
+    "login": "username", 
+    "password": "password"
 })
 
 title = 'Yesterday'
