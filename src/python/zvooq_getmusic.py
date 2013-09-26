@@ -6,8 +6,8 @@ import json
 import sys
 
 values = dumps({
-    "login": "veleslavia", 
-    "password": "gkfdcr"
+    "login": "username", 
+    "password": "password"
 })
 
 title = 'Yesterday'
@@ -39,8 +39,8 @@ def get_track_id(title, artist):
     headers = {"Content-Type": "application/json", "X-Method": "call"}
     r = requests.post("http://kazan.zvq.me/auth/login", data=values, headers=headers)
     headers = {"Content-Type": "application/json"}
-
-    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+title+'"}', headers=headers)
+    
+    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+title.strip()+'"}', headers=headers)
 #    print r.url
 #    print r.text
     if (r.status_code == requests.codes.ok):
@@ -48,7 +48,7 @@ def get_track_id(title, artist):
     else:
         title_id = []
     
-    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+artist+'"}', headers=headers)
+    r = requests.get('http://kazan.zvq.me/api/search?body={"string":"'+artist.strip()+'"}', headers=headers)
 #    print r.url
 #    print r.text
     if (r.status_code == requests.codes.ok):
@@ -88,4 +88,4 @@ def get_music(title, artist):
         return None
     #print id
 
-get_music(title, artist)
+#get_music(title, artist)
