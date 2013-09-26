@@ -6,7 +6,7 @@ Created on Sat Sep 21 13:16:22 2013
 """
 
 import mixcloud
-import zvooq_getmusic as zv
+#import zvooq_getmusic as zv
 import json
 import sys
 import urlparse
@@ -17,7 +17,6 @@ from eventlet import wsgi
 
 def hello_world(env, start_response):
     #print env
-    print 'got request'
     if env['PATH_INFO'] != '/':
         start_response('404 Not Found', [('Content-Type', 'text/plain')])
         return ['Not Found\r\n']
@@ -27,7 +26,8 @@ def hello_world(env, start_response):
         try:
             artist = params['artist'][0]
             track = params['track'][0]
-            isNext = params.has_key('next')
+            #isNext = params.has_key('next')
+            isNext = True
             print 'got request for ' + artist + ' - ' + track
             sys.stdout.flush()
 
@@ -35,14 +35,16 @@ def hello_world(env, start_response):
             if (isNext):
                 m = mixcloud.MixCloud()
                 candidates = m.getCandidates(artist, track)
-                for candidate in candidates:
-                    [artist, track] = candidate.split('-')
-                    j = zv.get_music(track, artist)
-                    if (j):
-                        result = j
-                        break;
-            else:
-                result = zv.get_music(track, artist)
+                start_response('200 OK', [('Content-Type', 'application/json')])
+                result = json.dumps(candidates, indent=2)
+#                for candidate in candidates:
+#                    [artist, track] = candidate.split('-')
+#                    j = zv.get_music(track, artist)
+#                    if (j):
+#                        result = j
+#                        break;
+#            else:
+#                result = zv.get_music(track, artist)
             if (result):
                 start_response('200 OK', [('Content-Type', 'application/json')])
                 return [result]
@@ -60,5 +62,5 @@ def hello_world(env, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['djturk-backend\r\n']
     
-wsgi.server(eventlet.listen(('', int(os.environ['PORT']))), hello_world)
-#wsgi.server(eventlet.listen(('', 8080)), hello_world)
+#wsgi.server(eventlet.listen(('', int(os.environ['PORT']))), hello_world)
+wsgi.server(eventlet.listen(('', 8080)), hello_world)

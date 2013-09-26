@@ -10,7 +10,7 @@ import json
 import string
 import sys
 import util as u
-import zvooq_getmusic as zv
+#import zvooq_getmusic as zv
 
 class MixCloud(object):
     
@@ -61,7 +61,7 @@ class MixCloud(object):
                 if ('track' in section):
                     tracklistArtistName = section['track']['artist']['name']
                     tracklistTrackName = section['track']['name']
-                    if (u.clean(tracklistArtistName) == u.clean(artist) and u.clean(tracklistTrackName) == u.clean(track)):
+                    if (u.clean(tracklistArtistName).find(u.clean(artist)) >= 0 and u.clean(tracklistTrackName).find(u.clean(track)) >= 0):
                         if (i > 0):
                             prev = sections[i - 1]
                             name = u.toName(prev['track']['artist']['name'], prev['track']['name'])
@@ -85,7 +85,13 @@ class MixCloud(object):
             total = total + 1
             if (total % 10 == 0):
                 print str(total) + ' playlists processed'
-        return sorted(tracks, key=tracks.get, reverse=True)
+        if (len(tracks) > 0):
+            print str(len(tracks)) + ' tracks have been found'
+            return sorted(tracks.items(), key=lambda x: x[1], reverse=True)
+            #s = sorted(tracks, key=tracks.get, reverse=True)
+            #return [[t, tracks[t]] for t in s]
+        return {"error" : "sorry, no playlists containing the track " +
+                u.toName(artist, track) + " were found"}
         #return tracks
 
     def getRank(self, counts):
